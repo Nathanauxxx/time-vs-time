@@ -88,7 +88,7 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-O servidor iniciará em: `http://localhost:8080`
+O servidor iniciará em: `![alt text](image.png)`
 
 ### Passo 2: Abrir o Frontend
 
