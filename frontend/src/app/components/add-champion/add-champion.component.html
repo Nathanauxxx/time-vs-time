@@ -1,0 +1,127 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>➕ Adicionar Campeão</h1>
+    <a routerLink="/" class="btn btn-primary">⬅️ Voltar</a>
+  </div>
+
+  @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+  }
+
+  <div class="card form-card">
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" #championForm="ngForm">
+        <div class="mb-3">
+          <label for="name" class="form-label">Nome do Campeão *</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="name" 
+            name="name"
+            [(ngModel)]="champion.name" 
+            required
+            placeholder="Ex: Yasuo">
+        </div>
+
+        <div class="mb-3">
+          <label for="championClass" class="form-label">Classe *</label>
+          <select 
+            class="form-select" 
+            id="championClass" 
+            name="championClass"
+            [(ngModel)]="champion.championClass" 
+            required>
+            <option value="">Selecione uma classe</option>
+            <option value="tank">Tank</option>
+            <option value="fighter">Lutador</option>
+            <option value="mage">Mago</option>
+            <option value="assassin">Assassino</option>
+            <option value="marksman">Atirador</option>
+            <option value="support">Suporte</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="iconUrl" class="form-label">URL do Ícone (opcional)</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="iconUrl" 
+            name="iconUrl"
+            [(ngModel)]="champion.iconUrl"
+            placeholder="https://exemplo.com/icone.png">
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="physicalDamage" class="form-label">
+              Dano Físico: {{ champion.physicalDamage }}/10
+            </label>
+            <input 
+              type="range" 
+              class="form-range" 
+              id="physicalDamage" 
+              name="physicalDamage"
+              [(ngModel)]="champion.physicalDamage"
+              min="0" 
+              max="10">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="magicDamage" class="form-label">
+              Dano Mágico: {{ champion.magicDamage }}/10
+            </label>
+            <input 
+              type="range" 
+              class="form-range" 
+              id="magicDamage" 
+              name="magicDamage"
+              [(ngModel)]="champion.magicDamage"
+              min="0" 
+              max="10">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="tankiness" class="form-label">
+              Resistência: {{ champion.tankiness }}/10
+            </label>
+            <input 
+              type="range" 
+              class="form-range" 
+              id="tankiness" 
+              name="tankiness"
+              [(ngModel)]="champion.tankiness"
+              min="0" 
+              max="10">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="crowdControl" class="form-label">
+              Controle de Grupo: {{ champion.crowdControl }}/10
+            </label>
+            <input 
+              type="range" 
+              class="form-range" 
+              id="crowdControl" 
+              name="crowdControl"
+              [(ngModel)]="champion.crowdControl"
+              min="0" 
+              max="10">
+          </div>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button 
+            type="submit" 
+            class="btn btn-success btn-lg" 
+            [disabled]="!championForm.valid || loading">
+            @if (loading) {
+              <span class="spinner-border spinner-border-sm me-2"></span>
+            }
+            ✅ Criar Campeão
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

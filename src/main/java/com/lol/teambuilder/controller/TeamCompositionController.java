@@ -34,6 +34,14 @@ public class TeamCompositionController {
     
     @PostMapping
     public ResponseEntity<TeamComposition> saveComposition(@RequestBody TeamComposition composition) {
+        // Garantir valores padrão se não fornecidos
+        if (composition.getDescription() == null || composition.getDescription().trim().isEmpty()) {
+            composition.setDescription("Composição criada");
+        }
+        if (composition.getName() == null || composition.getName().trim().isEmpty()) {
+            composition.setName("Time sem nome");
+        }
+        
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(teamCompositionService.saveComposition(composition));
     }

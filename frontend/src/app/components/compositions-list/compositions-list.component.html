@@ -1,0 +1,74 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>💾 Composições Salvas</h1>
+    <a routerLink="/" class="btn btn-primary">⬅️ Voltar</a>
+  </div>
+
+  @if (loading) {
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-2">Carregando composições...</p>
+    </div>
+  }
+
+  @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+  }
+
+  @if (!loading && compositions.length === 0) {
+    <div class="alert alert-info">
+      <h4>📭 Nenhuma composição salva</h4>
+      <p>Você ainda não salvou nenhuma composição de time.</p>
+      <a routerLink="/" class="btn btn-primary">Criar Composição</a>
+    </div>
+  }
+
+  @if (!loading && compositions.length > 0) {
+    <div class="row">
+      @for (comp of compositions; track comp.id) {
+        <div class="col-md-6 mb-4">
+          <div class="card composition-card">
+            <div class="card-header">
+              <h5>{{ comp.name || 'Composição #' + comp.id }}</h5>
+              <small class="text-muted">Criada em: {{ formatDate(comp.createdAt) }}</small>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <h6 class="text-primary">🔵 Time Azul</h6>
+                  <ul class="list-unstyled">
+                    <li><strong>Top:</strong> Campeão ID {{ comp.blueTop || 'N/A' }}</li>
+                    <li><strong>Jungle:</strong> Campeão ID {{ comp.blueJungle || 'N/A' }}</li>
+                    <li><strong>Mid:</strong> Campeão ID {{ comp.blueMid || 'N/A' }}</li>
+                    <li><strong>ADC:</strong> Campeão ID {{ comp.blueAdc || 'N/A' }}</li>
+                    <li><strong>Support:</strong> Campeão ID {{ comp.blueSupport || 'N/A' }}</li>
+                  </ul>
+                </div>
+                <div class="col-6">
+                  <h6 class="text-danger">🔴 Time Vermelho</h6>
+                  <ul class="list-unstyled">
+                    <li><strong>Top:</strong> Campeão ID {{ comp.redTop || 'N/A' }}</li>
+                    <li><strong>Jungle:</strong> Campeão ID {{ comp.redJungle || 'N/A' }}</li>
+                    <li><strong>Mid:</strong> Campeão ID {{ comp.redMid || 'N/A' }}</li>
+                    <li><strong>ADC:</strong> Campeão ID {{ comp.redAdc || 'N/A' }}</li>
+                    <li><strong>Support:</strong> Campeão ID {{ comp.redSupport || 'N/A' }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-danger btn-sm" (click)="deleteComposition(comp.id!)">
+                🗑️ Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="alert alert-info">
+      Total: {{ compositions.length }} composições salvas
+    </div>
+  }
+</div>

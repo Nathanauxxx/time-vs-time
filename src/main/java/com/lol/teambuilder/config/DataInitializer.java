@@ -14,6 +14,14 @@ public class DataInitializer implements CommandLineRunner {
     
     @Override
     public void run(String... args) {
+        // Só inserir campeões se o banco estiver vazio
+        if (championRepository.count() > 0) {
+            System.out.println("⚠️ Campeões já existem no banco. Pulando inserção.");
+            return;
+        }
+        
+        System.out.println("📥 Inserindo campeões no banco de dados...");
+        
         // Top Lane
         championRepository.save(new Champion("Darius", "Lutador", "fighter", "🗡️", 9, 1, 7, 6, "top"));
         championRepository.save(new Champion("Garen", "Lutador", "fighter", "⚔️", 8, 0, 8, 4, "top"));

@@ -12,6 +12,29 @@ body {
     padding: 20px;
 }
 
+/* Animações */
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
 .container {
     max-width: 1400px;
     margin: 0 auto;
@@ -25,6 +48,43 @@ header {
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
+
+.header-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.header-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    border: 2px solid transparent;
+}
+
+.header-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+    border-color: #c8aa6e;
+    background: linear-gradient(135deg, #764ba2, #667eea);
+}
+
+.header-btn:active {
+    transform: translateY(-1px);
+}
+
 
 header h1 {
     font-size: 3em;
@@ -456,5 +516,129 @@ header h1 {
     
     .btn {
         width: 100%;
+    }
+}
+
+/* Estilos da Comparação de Times */
+.comparison-result {
+    margin: 30px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    max-width: 900px;
+    border: 3px solid #c89b3c;
+    
+    &.blue-wins {
+        border-color: #0ac8ff;
+        background: linear-gradient(135deg, #0a1428 0%, #1e3a8a 50%, #0a1428 100%);
+    }
+    
+    &.red-wins {
+        border-color: #ff4655;
+        background: linear-gradient(135deg, #1a0a0a 0%, #7f1d1d 50%, #1a0a0a 100%);
+    }
+    
+    h3 {
+        text-align: center;
+        color: #c89b3c;
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    
+    .winner-announcement {
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 30px;
+        background: rgba(200, 155, 60, 0.1);
+        border-radius: 10px;
+        
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+            animation: pulse 2s infinite;
+        }
+        
+        .score {
+            font-size: 1.5em;
+            color: #c89b3c;
+            font-weight: bold;
+        }
+    }
+    
+    .comparison-details {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+        
+        .advantage-section,
+        .weakness-section,
+        .recommendation-section {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #c89b3c;
+            
+            h4 {
+                color: #c89b3c;
+                margin-bottom: 15px;
+                font-size: 1.3em;
+            }
+            
+            ul {
+                list-style: none;
+                padding: 0;
+                
+                li {
+                    padding: 10px;
+                    margin-bottom: 8px;
+                    background: rgba(200, 155, 60, 0.05);
+                    border-radius: 5px;
+                    border-left: 3px solid #c89b3c;
+                    font-size: 1.1em;
+                    line-height: 1.6;
+                }
+            }
+        }
+        
+        .advantage-section {
+            border-left-color: #10b981;
+            
+            h4 { color: #10b981; }
+            li { border-left-color: #10b981; }
+        }
+        
+        .weakness-section {
+            border-left-color: #ef4444;
+            
+            h4 { color: #ef4444; }
+            li { border-left-color: #ef4444; }
+        }
+        
+        .recommendation-section {
+            border-left-color: #3b82f6;
+            
+            h4 { color: #3b82f6; }
+            li { border-left-color: #3b82f6; }
+        }
+    }
+    
+    button {
+        display: block;
+        margin: 20px auto 0;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.9;
     }
 }

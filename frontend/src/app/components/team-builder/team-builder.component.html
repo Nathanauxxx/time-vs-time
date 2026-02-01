@@ -1,0 +1,302 @@
+<div class="container">
+  <header>
+    <h1>
+      <span style="display: inline-block; width: 50px; height: 50px; background: linear-gradient(180deg, #D4AF37 0%, #C89B3C 100%); border: 3px solid #8B7326; border-radius: 8px; margin-right: 15px; vertical-align: middle; position: relative;">
+        <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; font-weight: bold; color: #0A1428; font-family: 'Arial Black', sans-serif;">L</span>
+      </span>
+      ⚔️ Construtor de Times
+    </h1>
+    <p class="subtitle">Monte sua composição perfeita</p>
+    
+    <div class="header-navigation">
+      <a routerLink="/champions" class="btn btn-info btn-sm header-btn">📋 Listar Campeões</a>
+      <a routerLink="/compositions" class="btn btn-info btn-sm header-btn">💾 Composições Salvas</a>
+      <a routerLink="/add-champion" class="btn btn-info btn-sm header-btn">➕ Adicionar Campeão</a>
+      <button 
+        (click)="syncWithRiotApi()" 
+        class="btn btn-warning btn-sm header-btn"
+        [disabled]="isSyncing"
+        title="Sincronizar com API oficial da Riot Games">
+        @if (isSyncing) {
+          <span class="spinner-border spinner-border-sm me-1"></span>
+          🔄 Sincronizando...
+        } @else {
+          🎮 Sincronizar Riot API
+        }
+      </button>
+    </div>
+    
+    @if (syncMessage) {
+      <div class="alert" [class.alert-success]="syncMessage.includes('✅')" [class.alert-danger]="syncMessage.includes('❌')" [class.alert-info]="syncMessage.includes('🔄')">
+        {{ syncMessage }}
+      </div>
+    }
+    
+    @if (champions.length > 0) {
+      <div class="badge">
+        🎮 {{ champions.length }} campeões carregados do PostgreSQL
+      </div>
+    }
+  </header>
+
+  <div class="main-content">
+    <!-- Time Azul -->
+    <div class="team blue-team">
+      <h2>🔵 Time Azul</h2>
+      <div class="team-composition">
+        @for (lane of ['top', 'jungle', 'mid', 'adc', 'support']; track lane) {
+          <div class="lane" [attr.data-lane]="lane" [attr.data-team]="'blue'">
+            <div class="lane-label">{{ lane.toUpperCase() }}</div>
+            <div class="champion-slot" 
+                 [attr.data-position]="lane + '-blue'"
+                 [class.filled]="getTeamChampion('blue', lane)"
+                 (click)="getTeamChampion('blue', lane) ? null : openModal(lane + '-blue')">
+              @if (getTeamChampion('blue', lane); as champion) {
+                <div class="champion-info">
+                  <div class="champion-icon">
+                    @if (hasIconUrl(champion)) {
+                      <img [src]="champion.iconUrl" [alt]="champion.name">
+                    } @else {
+                      {{ getChampionIcon(champion) }}
+                    }
+                  </div>
+                  <div class="champion-details">
+                    <div class="champion-name">{{ champion.name }}</div>
+                    <div class="champion-role">{{ champion.championClass || 'N/A' }}</div>
+                  </div>
+                </div>
+                <button class="btn btn-danger btn-sm remove-btn" (click)="removeChampion(lane + '-blue'); $event.stopPropagation()">×</button>
+              } @else {
+                <span class="btn btn-outline-light placeholder">Selecione</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+      
+      <div class="team-stats" id="blue-stats">
+        <div class="stat">
+          <span class="stat-label">Dano Físico:</span>
+          <div class="stat-bar">
+            <div class="stat-fill" [style.width.%]="getTeamStats('blue').physical"></div>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Dano Mágico:</span>
+          <div class="stat-bar">
+            <div class="stat-fill" [style.width.%]="getTeamStats('blue').magic"></div>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Tanques:</span>
+          <div class="stat-bar">
+            <div class="stat-fill" [style.width.%]="getTeamStats('blue').tank"></div>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Controle de Grupo:</span>
+          <div class="stat-bar">
+            <div class="stat-fill" [style.width.%]="getTeamStats('blue').cc"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time Vermelho -->
+    <div class="team red-team">
+      <h2>🔴 Time Vermelho</h2>
+      <div class="team-composition">
+        @for (lane of ['top', 'jungle', 'mid', 'adc', 'support']; track lane) {
+          <div class="lane" [attr.data-lane]="lane" [attr.data-team]="'red'">
+            <div class="lane-label">{{ lane.toUpperCase() }}</div>
+            <div class="champion-slot" 
+                 [attr.data-position]="lane + '-red'"
+                 [class.filled]="getTeamChampion('red', lane)"
+                 (click)="getTeamChampion('red', lane) ? null : openModal(lane + '-red')">
+              @if (getTeamChampion('red', lane); as champion) {
+                <div class="champion-info">
+                  <div class="champion-icon">
+                    @if (hasIconUrl(champion)) {
+                      <img [src]="champion.iconUrl" [alt]="champion.name">
+                    } @else {
+                      {{ getChampionIcon(champion) }}
+                    }
+                  </div>
+                  <div class="champion-details">
+                    <div class="champion-name">{{ champion.name }}</div>
+                    <div class="champion-role">{{ champion.championClass || 'N/A' }}</div>
+                  </div>
+                </div>
+                <button class="btn btn-danger btn-sm remove-btn" (click)="removeChampion(lane + '-red'); $event.stopPropagation()">×</button>
+              } @else {
+                <span class="btn btn-outline-light placeholder">Selecione</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+      
+      <div class="team-stats" id="red-stats">
+        <div class="stat">
+          <span class="stat-label">Dano Físico:</span>
+          <div class="stat-bar">
+            <div class="stat-fill" [style.width.%]="getTeamStats('red').physical"></div>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Dano Mágico:</span>
+          <div class="stat-bar">
+            <div class="stat-fill" [style.width.%]="getTeamStats('red').magic"></div>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Tanques:</span>
+          <div class="stat-bar">
+            <div class="stat-fill" [style.width.%]="getTeamStats('red').tank"></div>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Controle de Grupo:</span>
+          <div class="stat-bar">
+            <div class="stat-fill" [style.width.%]="getTeamStats('red').cc"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botões de Controle -->
+  <div class="controls">
+    <button class="btn btn-secondary btn-lg" (click)="clearAll()">🔄 Limpar Tudo</button>
+    <button class="btn btn-warning btn-lg" (click)="compareTeams()" [disabled]="!canCompareTeams()">⚔️ Comparar Times</button>
+    <button class="btn btn-success btn-lg" (click)="saveComposition()">💾 Salvar Composição</button>
+  </div>
+
+  <!-- Resultado da Comparação -->
+  @if (comparisonResult) {
+    <div class="comparison-result" [class.blue-wins]="comparisonResult.winner === 'blue'" [class.red-wins]="comparisonResult.winner === 'red'">
+      <h3>📊 Análise Comparativa</h3>
+      
+      <div class="winner-announcement">
+        @if (comparisonResult.winner === 'blue') {
+          <h2>🔵 TIME AZUL É MAIS FORTE!</h2>
+        } @else if (comparisonResult.winner === 'red') {
+          <h2>🔴 TIME VERMELHO É MAIS FORTE!</h2>
+        } @else {
+          <h2>⚖️ TIMES EQUILIBRADOS!</h2>
+        }
+        <p class="score">Placar: {{ comparisonResult.blueScore }} x {{ comparisonResult.redScore }}</p>
+      </div>
+
+      <div class="comparison-details">
+        <div class="advantage-section">
+          <h4>💪 Vantagens do Time {{ comparisonResult.winner === 'blue' ? 'Azul' : 'Vermelho' }}</h4>
+          <ul>
+            @for (adv of comparisonResult.advantages; track adv) {
+              <li>{{ adv }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="weakness-section">
+          <h4>⚠️ Pontos Fracos</h4>
+          <ul>
+            @for (weak of comparisonResult.weaknesses; track weak) {
+              <li>{{ weak }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="recommendation-section">
+          <h4>💡 Recomendações</h4>
+          <ul>
+            @for (rec of comparisonResult.recommendations; track rec) {
+              <li>{{ rec }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+
+      <button class="btn btn-sm btn-secondary" (click)="comparisonResult = null">Fechar Análise</button>
+    </div>
+  }
+</div>
+
+<!-- Modal de Seleção de Campeão -->
+@if (isModalOpen) {
+  <div class="modal active" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Selecionar Campeão</h2>
+        <span class="close" (click)="closeModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <input 
+          type="text" 
+          placeholder="Buscar campeão..."
+          [(ngModel)]="searchTerm"
+          (input)="filterChampions()"
+          class="form-control">
+        
+        <div class="filter-buttons">
+          <button 
+            class="btn btn-sm"
+            [class.btn-primary]="currentFilter === 'all'"
+            [class.btn-outline-secondary]="currentFilter !== 'all'"
+            (click)="setFilter('all')">Todos</button>
+          <button 
+            class="btn btn-sm"
+            [class.btn-primary]="currentFilter === 'tank'"
+            [class.btn-outline-secondary]="currentFilter !== 'tank'"
+            (click)="setFilter('tank')">Tank</button>
+          <button 
+            class="btn btn-sm"
+            [class.btn-primary]="currentFilter === 'fighter'"
+            [class.btn-outline-secondary]="currentFilter !== 'fighter'"
+            (click)="setFilter('fighter')">Lutador</button>
+          <button 
+            class="btn btn-sm"
+            [class.btn-primary]="currentFilter === 'mage'"
+            [class.btn-outline-secondary]="currentFilter !== 'mage'"
+            (click)="setFilter('mage')">Mago</button>
+          <button 
+            class="btn btn-sm"
+            [class.btn-primary]="currentFilter === 'assassin'"
+            [class.btn-outline-secondary]="currentFilter !== 'assassin'"
+            (click)="setFilter('assassin')">Assassino</button>
+          <button 
+            class="btn btn-sm"
+            [class.btn-primary]="currentFilter === 'marksman'"
+            [class.btn-outline-secondary]="currentFilter !== 'marksman'"
+            (click)="setFilter('marksman')">Atirador</button>
+          <button 
+            class="btn btn-sm"
+            [class.btn-primary]="currentFilter === 'support'"
+            [class.btn-outline-secondary]="currentFilter !== 'support'"
+            (click)="setFilter('support')">Suporte</button>
+        </div>
+        
+        <div class="champion-grid">
+          @if (filteredChampions.length === 0) {
+            <div class="empty-message">
+              <p>Nenhum campeão encontrado para esta busca</p>
+            </div>
+          }
+          @for (champion of filteredChampions; track champion.id) {
+            <div class="champion-card" (click)="selectChampion(champion)">
+              <div class="champion-card-icon">
+                @if (champion.iconUrl) {
+                  <img [src]="champion.iconUrl" [alt]="champion.name">
+                } @else {
+                  <div class="icon-placeholder">{{ champion.name.charAt(0) }}</div>
+                }
+              </div>
+              <div class="champion-card-name">{{ champion.name }}</div>
+              <div class="champion-card-class">{{ champion.championClass || 'N/A' }}</div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

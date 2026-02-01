@@ -20,7 +20,6 @@ public class TeamComposition {
     @Column(nullable = false)
     private String name;
     
-    @Column(nullable = false)
     private String description;
     
     // Time Azul

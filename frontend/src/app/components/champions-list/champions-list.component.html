@@ -1,0 +1,84 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>📋 Lista de Campeões</h1>
+    <a routerLink="/" class="btn btn-primary">⬅️ Voltar</a>
+  </div>
+
+  <!-- Barra de Pesquisa -->
+  <div class="mb-4">
+    <div class="input-group">
+      <span class="input-group-text bg-dark text-white border-secondary">🔍</span>
+      <input
+        type="text"
+        class="form-control bg-dark text-white border-secondary"
+        placeholder="Pesquisar por nome ou classe do campeão..."
+        [(ngModel)]="searchTerm"
+        (input)="filterChampions()"
+      />
+      @if (searchTerm) {
+        <button class="btn btn-outline-secondary" type="button" (click)="searchTerm = ''; filterChampions()">
+          ✖️
+        </button>
+      }
+    </div>
+    @if (searchTerm && filteredChampions.length === 0) {
+      <small class="text-muted mt-2 d-block">Nenhum campeão encontrado para "{{ searchTerm }}"</small>
+    }
+    @if (searchTerm && filteredChampions.length > 0) {
+      <small class="text-muted mt-2 d-block">{{ filteredChampions.length }} campeão(ões) encontrado(s)</small>
+    }
+  </div>
+
+  @if (loading) {
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-2">Carregando campeões...</p>
+    </div>
+  }
+
+  @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+  }
+
+  @if (!loading && filteredChampions.length > 0) {
+    <div class="table-responsive">
+      <table class="table table-dark table-striped table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Classe</th>
+            <th>Dano Físico</th>
+            <th>Dano Mágico</th>
+            <th>Tank</th>
+            <th>CC</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (champion of filteredChampions; track champion.id) {
+            <tr>
+              <td>{{ champion.id }}</td>
+              <td>{{ champion.name }}</td>
+              <td>{{ champion.championClass }}</td>
+              <td>{{ champion.physicalDamage }}/10</td>
+              <td>{{ champion.magicDamage }}/10</td>
+              <td>{{ champion.tankiness }}/10</td>
+              <td>{{ champion.crowdControl }}/10</td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="deleteChampion(champion.id!)">
+                  🗑️ Excluir
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="alert alert-info">
+      Total: {{ champions.length }} campeões
+    </div>
+  }
+</div>

@@ -1,0 +1,28 @@
+.container {
+  max-width: 1200px;
+  color: #f0e6d2;
+}
+
+h1 {
+  color: #c8aa6e;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.table-dark {
+  background-color: #1a2332;
+  color: #f0e6d2;
+  
+  th {
+    background-color: #0a1428;
+    color: #c8aa6e;
+    border-color: #c8aa6e;
+  }
+  
+  td {
+    border-color: #3a4558;
+  }
+  
+  tbody tr:hover {
+    background-color: #2a3342;
+  }
+}

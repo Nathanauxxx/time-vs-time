@@ -19,13 +19,13 @@ public class Champion {
     @Column(nullable = false, unique = true)
     private String name;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String role;
     
     @Column(nullable = false)
     private String championClass;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String icon;
     
     @Column(nullable = false)

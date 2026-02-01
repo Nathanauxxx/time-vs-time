@@ -1,188 +1,220 @@
-# 🎮 League of Legends - Team Builder
+# 🎮 League of Legends Team Builder
 
-Aplicação completa com **Spring Boot** (backend) e **HTML/CSS/JavaScript** (frontend) para construir e analisar composições de times de League of Legends.
+Uma aplicação full-stack profissional para análise e montagem de composições de equipes de League of Legends.
 
-## 🚀 Tecnologias Utilizadas
+## 📋 Índice
+
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Tecnologias](#tecnologias)
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação](#instalação)
+- [Execução](#execução)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [API Endpoints](#api-endpoints)
+- [Funcionalidades](#funcionalidades)
+- [Contribuindo](#contribuindo)
+
+## 📖 Sobre o Projeto
+
+Sistema inteligente que permite criar, gerenciar e analisar composições de equipes de League of Legends, fornecendo insights sobre balanceamento de dano, tankiness e controle de grupo (CC).
+
+### Principais Características
+
+- ✅ Gerenciamento completo de campeões (CRUD)
+- ✅ Sistema de busca e filtros avançados
+- ✅ Análise inteligente de composições
+- ✅ Recomendações baseadas em sinergia
+- ✅ Interface responsiva e moderna
+- ✅ API RESTful documentada
+
+## 🚀 Tecnologias
 
 ### Backend
-- **Java 17**
-- **Spring Boot 3.2.2**
-- **Spring Data JPA**
-- **H2 Database** (banco em memória)
-- **Lombok**
-- **Maven**
+- **Java 21** - Linguagem principal
+- **Spring Boot 3.2.2** - Framework
+- **PostgreSQL 18** - Banco de dados
+- **JPA/Hibernate** - ORM
+- **Maven** - Gerenciamento de dependências
+- **Lombok** - Redução de boilerplate
 
 ### Frontend
-- **HTML5**
-- **CSS3**
-- **JavaScript (Vanilla)**
+- **Angular 17** - Framework
+- **TypeScript 5.2** - Linguagem
+- **Bootstrap 5.3** - UI Framework
+- **RxJS 7.8** - Programação reativa
+- **SCSS** - Estilização
 
-## 📋 Funcionalidades
+## 📦 Pré-requisitos
 
-### Backend (API REST)
-- ✅ CRUD completo de campeões
-- ✅ Busca e filtros de campeões (por classe, lane, nome)
-- ✅ Sistema de análise de composição de times
-- ✅ Salvamento e carregamento de composições
-- ✅ Banco de dados H2 em memória
-- ✅ Console H2 para visualização de dados
+- Java 21 ou superior
+- Node.js 18+ e npm
+- PostgreSQL 18+
+- Maven 3.8+
 
-### Frontend
-- ✅ Interface visual temática do LoL
-- ✅ Seleção de campeões por lane (Top, Jungle, Mid, ADC, Support)
-- ✅ Filtros por classe de campeão
-- ✅ Sistema de busca
-- ✅ Análise em tempo real de composição
-- ✅ Estatísticas visuais dos times
-- ✅ Composição aleatória
-- ✅ Salvar/carregar composições
+## 🔧 Instalação
 
-## 🏗️ Estrutura do Projeto
-
-```
-legue-of-legends/
-├── src/
-│   └── main/
-│       ├── java/com/lol/teambuilder/
-│       │   ├── TeamBuilderApplication.java
-│       │   ├── config/
-│       │   │   └── DataInitializer.java
-│       │   ├── controller/
-│       │   │   ├── ChampionController.java
-│       │   │   ├── TeamAnalysisController.java
-│       │   │   └── TeamCompositionController.java
-│       │   ├── dto/
-│       │   │   └── TeamAnalysisDTO.java
-│       │   ├── model/
-│       │   │   ├── Champion.java
-│       │   │   └── TeamComposition.java
-│       │   ├── repository/
-│       │   │   ├── ChampionRepository.java
-│       │   │   └── TeamCompositionRepository.java
-│       │   └── service/
-│       │       ├── ChampionService.java
-│       │       ├── TeamAnalysisService.java
-│       │       └── TeamCompositionService.java
-│       └── resources/
-│           └── application.properties
-├── index.html
-├── style.css
-├── script.js
-├── champions.js
-├── pom.xml
-└── README.md
-```
-
-## 🔧 Como Executar
-
-### Pré-requisitos
-- Java 17 ou superior
-- Maven 3.6+
-- Navegador web moderno
-
-### Passo 1: Compilar e Executar o Backend
-
+### 1. Clone o repositório
 ```bash
-# Na raiz do projeto
+git clone https://github.com/seu-usuario/lol-team-builder.git
+cd lol-team-builder
+```
+
+### 2. Configure o banco de dados
+```bash
+# Crie o banco de dados
+createdb -U postgres league_of_legends
+
+# Execute o script de migração (se necessário)
+psql -U postgres -d league_of_legends -f scripts/fix-database.sql
+```
+
+### 3. Configure as variáveis de ambiente
+Edite `src/main/resources/application.properties` e ajuste as credenciais do PostgreSQL.
+
+### 4. Instale as dependências
+
+**Backend:**
+```bash
 mvn clean install
+```
+
+**Frontend:**
+```bash
+cd frontend
+npm install
+```
+
+## ▶️ Execução
+
+### Modo Desenvolvimento
+
+**Backend** (porta 8080):
+```bash
 mvn spring-boot:run
 ```
 
-O servidor iniciará em: `![alt text](image.png)`
-
-### Passo 2: Abrir o Frontend
-
-Abra o arquivo `index.html` no seu navegador ou use um servidor local:
-
+**Frontend** (porta 4200):
 ```bash
-# Opção 1: Abrir diretamente
-# Clique duas vezes em index.html
-
-# Opção 2: Usar Python para servidor local
-python -m http.server 3000
-# Acesse: http://localhost:3000
+cd frontend
+npm start
 ```
 
-## 📡 Endpoints da API
+Acesse: `http://localhost:4200`
 
-### Campeões
+### Modo Produção
 
-```http
-GET    /api/champions              # Lista todos os campeões
-GET    /api/champions/{id}         # Busca campeão por ID
-GET    /api/champions/class/{class} # Busca por classe
-GET    /api/champions/lane/{lane}  # Busca por lane
-GET    /api/champions/search?name= # Busca por nome
-POST   /api/champions              # Cria novo campeão
-PUT    /api/champions/{id}         # Atualiza campeão
-DELETE /api/champions/{id}         # Remove campeão
+**Build do backend:**
+```bash
+mvn clean package -DskipTests
+java -jar target/team-builder-1.0.0.jar
 ```
+
+**Build do frontend:**
+```bash
+cd frontend
+npm run build
+```
+
+## 📁 Estrutura do Projeto
+
+```
+lol-team-builder/
+├── docs/                          # Documentação
+│   └── GUIA_EXECUCAO.md          # Guia detalhado
+├── scripts/                       # Scripts SQL e automação
+│   └── fix-database.sql          # Migrations
+├── src/
+│   └── main/
+│       ├── java/com/lol/teambuilder/
+│       │   ├── config/           # Configurações
+│       │   ├── controller/       # Controllers REST
+│       │   ├── dto/              # Data Transfer Objects
+│       │   ├── model/            # Entidades JPA
+│       │   ├── repository/       # Repositórios
+│       │   └── service/          # Lógica de negócio
+│       └── resources/
+│           └── application.properties
+├── frontend/
+│   └── src/
+│       ├── app/
+│       │   ├── components/       # Componentes Angular
+│       │   ├── models/           # Interfaces TypeScript
+│       │   └── services/         # Serviços HTTP
+│       ├── assets/               # Assets estáticos
+│       └── environments/         # Configurações de ambiente
+├── pom.xml                        # Maven config
+└── README.md                      # Este arquivo
+```
+
+## 🌐 API Endpoints
+
+### Champions
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/api/champions` | Lista todos os campeões |
+| GET | `/api/champions/{id}` | Busca campeão por ID |
+| POST | `/api/champions` | Cria novo campeão |
+| PUT | `/api/champions/{id}` | Atualiza campeão |
+| DELETE | `/api/champions/{id}` | Remove campeão |
+
+### Team Compositions
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/api/compositions` | Lista composições |
+| GET | `/api/compositions/{id}` | Busca composição |
+| POST | `/api/compositions` | Cria composição |
+| DELETE | `/api/compositions/{id}` | Remove composição |
+
+### Analysis & Recommendations
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST | `/api/analysis/team` | Analisa composição |
+| POST | `/api/recommendations/analyze` | Recomenda campeões |
+
+## ✨ Funcionalidades
+
+### Gerenciamento de Campeões
+- Busca e filtro em tempo real por nome/classe
+- Visualização completa de estatísticas
+- CRUD completo
 
 ### Análise de Times
+- Cálculo de dano físico/mágico total
+- Avaliação de tankiness
+- Medição de controle de grupo (CC)
+- Score de balanceamento
 
-```http
-POST   /api/analysis/team          # Analisa composição
-Body: [championId1, championId2, ...]
-```
+### Sistema de Recomendações
+- Análise de lacunas na composição
+- Sugestões baseadas em sinergia
+- Top 5 campeões recomendados por posição
 
-### Composições
+## 🤝 Contribuindo
 
-```http
-GET    /api/compositions           # Lista composições salvas
-GET    /api/compositions/{id}      # Busca composição por ID
-GET    /api/compositions/search?name= # Busca por nome
-POST   /api/compositions           # Salva nova composição
-DELETE /api/compositions/{id}      # Remove composição
-```
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
+4. Push para a branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request
 
-## 🗄️ Console H2
+## 📝 Licença
 
-Para acessar o console do banco de dados H2:
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-1. Acesse: `http://localhost:8080/h2-console`
-2. Use as configurações:
-   - **JDBC URL**: `jdbc:h2:mem:loldb`
-   - **Username**: `sa`
-   - **Password**: (deixe em branco)
+## 👤 Autor
 
-## 🎯 Próximas Melhorias
+**Seu Nome**
+- GitHub: [@seu-usuario](https://github.com/seu-usuario)
 
-- [ ] Integrar frontend com backend (substituir dados locais por chamadas API)
-- [ ] Adicionar autenticação de usuários
-- [ ] Persistência em banco PostgreSQL/MySQL
-- [ ] Sistema de ranking e estatísticas de winrate
-- [ ] Integração com API oficial da Riot
-- [ ] Sistema de bans
-- [ ] Recomendação automática de picks
-- [ ] Histórico de partidas
+## 🙏 Agradecimentos
 
-## 📝 Como Integrar Frontend com Backend
+- Riot Games pelo League of Legends
+- Comunidade Spring Boot
+- Comunidade Angular
 
-Modifique o `script.js` para fazer chamadas à API:
+---
 
-```javascript
-// Exemplo: Carregar campeões da API
-async function loadChampions() {
-    const response = await fetch('http://localhost:8080/api/champions');
-    const champions = await response.json();
-    return champions;
-}
-
-// Exemplo: Analisar time
-async function analyzeTeam(championIds) {
-    const response = await fetch('http://localhost:8080/api/analysis/team', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(championIds)
-    });
-    return await response.json();
-}
-```
-
-## 📄 Licença
-
-Este projeto é para fins educacionais e de estudo.
-
-## 👨‍💻 Autor
-
-Desenvolvido para aprendizado de Spring Boot e desenvolvimento full-stack.
+⭐ Se este projeto foi útil, considere dar uma estrela!
